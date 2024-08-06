@@ -1,45 +1,51 @@
-#!/usr/bin/env python
-from typing import List
-
 from fastapi import FastAPI
-from langchain_core.prompts import ChatPromptTemplate
-from langchain_core.output_parsers import StrOutputParser
-from langchain_openai import ChatOpenAI
+from fastapi.responses import RedirectResponse
+from fastapi.middleware.cors import CORSMiddleware
+from typing import List, Union
+from langserve.pydantic_v1 import BaseModel, Field
+from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
 from langserve import add_routes
-
-# 1. Create prompt template
-system_template = "Translate the following into {language}:"
-prompt_template = ChatPromptTemplate.from_messages([
-    ('system', system_template),
-    ('user', '{text}')
-])
-
-# 2. Create model
-model = ChatOpenAI()
-
-# 3. Create parser
-parser = StrOutputParser()
-
-# 4. Create chain
-chain = prompt_template | model | parser
+from chat import chain as chat_chain
 
 
-# 4. App definition
-app = FastAPI(
-  title="LangChain Server",
-  version="1.0",
-  description="A simple API server using LangChain's Runnable interfaces",
+app = FastAPI()
+
+# Set all CORS enabled origins
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+    expose_headers=["*"],
 )
 
-# 5. Adding chain route
+
+@app.get("/")
+async def redirect_root_to_docs():
+    return RedirectResponse("/chat/playground")
+
+class InputChat(BaseModel):
+    """Input for the chat endpoint."""
+
+    messages: List[Union[HumanMessage, AIMessage, SystemMessage]] = Field(
+        ...,
+        description="The chat messages representing the current conversation.",
+    )
+
 
 add_routes(
     app,
-    chain,
-    path="/chain",
+    chat_chain.with_types(input_type=InputChat),
+    path="/chat",
+    enable_feedback_endpoint=True,
+    enable_public_trace_link_endpoint=True,
+    playground_type="chat",
 )
+
+
 
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run(app, host="localhost", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8000)
