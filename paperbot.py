@@ -15,20 +15,22 @@ from langgraph.prebuilt import create_react_agent
 from langchain_core.messages import AIMessage, HumanMessage
 from langchain_core.output_parsers import StrOutputParser
 from langchain_community.document_loaders import PyPDFLoader
-import openai
 import getpass
 import os
 
-os.environ["OPENAI_API_KEY"] = getpass.getpass()
-llm = ChatOpenAI(model="gpt-3.5-turbo")
+os.environ["OPENAI_API_KEY"] = getpass.getpass("OpenAI API key: ")
+# llm = ChatOpenAI(model="gpt-3.5-turbo")
+llm = ChatOpenAI(model="gpt-4o")
 
 
 
 ### 논문 삽입 ###
-file_path = "../project/example_data/2408.00714v1.pdf"
+file_path = "./example_data/2408.00714v1.pdf"
 loader = PyPDFLoader(file_path)
 
 docs = loader.load()
+
+
 
 ### 대형언어모델, 메모리, 파서 설정 ###
 parser = StrOutputParser()
