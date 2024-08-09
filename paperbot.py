@@ -51,8 +51,8 @@ retriever = vectorstore.as_retriever()
 ### 리트리버툴 구축 ###
 tool = create_retriever_tool(
     retriever,
-    "blog_post_retriever",
-    "Searches and returns excerpts from the Autonomous Agents blog post.",
+    "paper_retriever",
+    "Searches and returns excerpts from the Artificial Intelligence paper.",
 )
 tools = [tool]
 
