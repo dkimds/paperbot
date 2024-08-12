@@ -20,9 +20,9 @@ st.title("🦜🔗 Welcome to Paperbot")
 
 openai_api_key = st.sidebar.text_input("Open AI Key", type="password")
 uploaded_file = st.sidebar.file_uploader("Choose a file")
-### 논문 삽입 ###
 
 if (openai_api_key is not None) and (uploaded_file is not None):
+    ### 논문 삽입 ###
     # To read file as bytes:
     bytes_data = uploaded_file.getvalue()
     file_path = "./example_data/temp.pdf"
