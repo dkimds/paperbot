@@ -33,8 +33,8 @@ docs = loader.load()
 ### 대형언어모델, 메모리, 파서 설정 ###
 parser = StrOutputParser()
 memory = SqliteSaver.from_conn_string(":memory:")
-llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0)
-# llm = ChatOpenAI(model="gpt-4o", temperature=0)
+# llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0)
+llm = ChatOpenAI(model="gpt-4o", temperature=0)
 
 
 
