@@ -19,8 +19,6 @@ import getpass
 import os
 
 os.environ["OPENAI_API_KEY"] = getpass.getpass("OpenAI API key: ")
-# llm = ChatOpenAI(model="gpt-3.5-turbo")
-llm = ChatOpenAI(model="gpt-4o")
 
 
 
@@ -36,6 +34,7 @@ docs = loader.load()
 parser = StrOutputParser()
 memory = SqliteSaver.from_conn_string(":memory:")
 llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0)
+# llm = ChatOpenAI(model="gpt-4o", temperature=0)
 
 
 
