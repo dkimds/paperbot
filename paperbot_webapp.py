@@ -75,7 +75,7 @@ def generate_response(input_text):
 
     # print(f"User: {user_input}")
     s = s['agent']['messages'][0]
-    st.info(s)
+    st.info(parser.invoke(s))
 
 
 ### 메인 화면에서 챗봇 구동 ###
