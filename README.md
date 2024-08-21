@@ -27,7 +27,7 @@ streamlit run paperbot_webapp.py
 ```
 - Deployment
 ```
-ngrok http http://localhost:8501
+ngrok http --domain=violently-well-rabbit.ngrok-free.app 8501
 ```
 ## 라이선스
 MIT License
