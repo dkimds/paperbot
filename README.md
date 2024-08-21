@@ -7,7 +7,7 @@
 - **기술스택**:python, Langchain, OpenAI API
 
 ## 설치 및 실행
-1. **필수 요구사항**: python 3,11 이상, pip
+1. **필수 요구사항**: python 3.11 이상, pip
 2. **설치**
 ```bash
 git clone https://github.com/username/paperbot.git
@@ -16,8 +16,18 @@ pip install -r requirement.txt
 ```
 
 ## 사용 방법
+- Console
 ```bash
-python paperbot_webapp.py
+cd project
+python paperbot.py
+```
+- Web
+```
+streamlit run paperbot_webapp.py
+```
+- Deployment
+```
+ngrok http http://localhost:8501
 ```
 ## 라이선스
 MIT License
