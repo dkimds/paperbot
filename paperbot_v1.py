@@ -28,7 +28,7 @@ docs = loader.load()
 
 ### 대형언어모델, 메모리, 파서 설정 ###
 parser = StrOutputParser()
-llm = ChatOllama(model="llama3")
+llm = ChatOllama(model="llama3.1")
 memory = MemorySaver()
 embed_model = "nomic-embed-text"
 
