@@ -81,7 +81,10 @@ def generate_response(input_text):
 with st.form("my_form"):
     text = st.text_area(
         "Enter text:",
-        "What is annotation?"
+        "I will summarize a paper in this page, present" +
+        "the contents and explain the insights from it." +
+        "In order to make 2 or 3 slides, give me some key" +
+        "points of the paper. Especially, elaborate the method."
     )
     submitted = st.form_submit_button("Submit")
     if submitted:
