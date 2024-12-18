@@ -16,6 +16,35 @@ pip install -r requirement.txt
 ```
 
 ## 사용 방법
+- Main function
+```python
+### 대형언어모델, 메모리, 파서 설정 ###
+parser = StrOutputParser()
+llm = ChatOllama(model="llama3.1")
+memory = MemorySaver()
+embed_model = "nomic-embed-text"
+
+
+### 리트리버 생성 ###
+text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+splits = text_splitter.split_documents(docs)
+vectorstore = Chroma.from_documents(documents=splits, embedding=OllamaEmbeddings(model=embed_model))
+
+retriever = vectorstore.as_retriever()
+
+
+
+### 리트리버툴 구축 ###
+tool = create_retriever_tool(
+    retriever,
+    "paper_retriever",
+    "Searches and returns excerpts from the Artificial Intelligence paper.",
+)
+tools = [tool]
+
+
+agent_executor = create_react_agent(llm, tools, checkpointer=memory)
+```
 - Console
 ```bash
 cd project
