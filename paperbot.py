@@ -28,15 +28,15 @@ docs = loader.load()
 
 ### 대형언어모델, 메모리, 파서 설정 ###
 parser = StrOutputParser()
-llm = ChatOllama(model="llama3.1")
+llm = ChatOllama(model="Llama3.2-Korean")
 memory = MemorySaver()
-embed_model = "nomic-embed-text"
+embedding = "snowflake-arctic-embed2"
 
 
 ### 리트리버 생성 ###
 text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
 splits = text_splitter.split_documents(docs)
-vectorstore = Chroma.from_documents(documents=splits, embedding=OllamaEmbeddings(model=embed_model))
+vectorstore = Chroma.from_documents(documents=splits, embedding=OllamaEmbeddings(model=embedding))
 
 retriever = vectorstore.as_retriever()
 
