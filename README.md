@@ -47,15 +47,14 @@ agent_executor = create_react_agent(llm, tools, checkpointer=memory)
 ```
 - Console
 ```bash
-cd project
 python paperbot.py
 ```
 - Web
-```
+```bash
 streamlit run paperbot_web.py
 ```
 - Deployment
-```
+```bash
 ngrok http --domain=violently-well-rabbit.ngrok-free.app 8501
 ```
 ## 라이선스
