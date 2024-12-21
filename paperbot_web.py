@@ -8,7 +8,7 @@ from langchain_core.chat_history import BaseChatMessageHistory
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_ollama.chat_models import ChatOllama
-from langchain_community.embeddings import OllamaEmbeddings
+from langchain_ollama import OllamaEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.prebuilt import create_react_agent
@@ -25,7 +25,7 @@ if uploaded_file is not None:
     ### 논문 삽입 ###
     # To read file as bytes:
     bytes_data = uploaded_file.getvalue()
-    file_path = "./example_data/temp.pdf"
+    file_path = "./temp.pdf"
     with open(file_path, "wb") as f:
         f.write(bytes_data)
     loader = PyPDFLoader(file_path)
@@ -35,9 +35,9 @@ if uploaded_file is not None:
 
     ### 대형언어모델, 메모리, 파서 설정 ###
     parser = StrOutputParser()
-    llm = ChatOllama(model="llama3.1")
+    llm = ChatOllama(model="Llama3.2-Korean")
     memory = MemorySaver()
-    embed_model = "nomic-embed-text"        
+    embed_model = "snowflake-arctic-embed2"        
 
 
     ### 리트리버 생성 ###
