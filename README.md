@@ -10,8 +10,8 @@
 1. **필수 요구사항**: python 3.11 이상, pip
 2. **설치**
 ```bash
-git clone https://github.com/username/AI-master.git
-cd AI-master
+git clone https://github.com/dkimds/paperbot.git
+cd paperbot
 pip install -r requirement.txt
 ```
 
