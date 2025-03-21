@@ -80,29 +80,27 @@ if uploaded_file is not None:
     config = {"configurable": {"session_id": "abc123"}}
     
 
+if "messages" not in st.session_state:
+    st.session_state.messages = []
 
-def generate_response(input_text):
-    for s in agent_executor.stream(
-        {"messages": HumanMessage(content=input_text)}, config=config
-    ):
-        pass
-        # print(s)
+for message in st.session_state.messages:
+    with st.chat_message(message["role"]):
+        st.markdown(message["content"])
+
+chat_instruction = "What is up?" 
+
+if prompt := st.chat_input(chat_instruction):
+    st.session_state.messages.append({"role": "user", "content": prompt})
+    with st.chat_message("user"):
+        st.markdown(prompt)
+    
+    with st.chat_message("assistant"):
+        response = agent_with_chat_history.invoke(
+            {"input": prompt},
+            config=config,
+        )
+        st.markdown(response['output'])
         
+    st.session_state.messages.append({"role": "assistant", "content": response['output']})
 
-    # print(f"User: {user_input}")
-    s = s['agent']['messages'][0]
-    st.info(parser.invoke(s))
-
-
-### 메인 화면에서 챗봇 구동 ###
-with st.form("my_form"):
-    text = st.text_area(
-        "Enter text:",
-        "I will summarize a paper in this page, present" +
-        "the contents and explain the insights from it." +
-        "In order to make 2 or 3 slides, give me some key" +
-        "points of the paper. Especially, elaborate the method."
-    )
-    submitted = st.form_submit_button("Submit")
-    if submitted:
-        generate_response(text)
+    
