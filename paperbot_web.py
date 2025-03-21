@@ -62,7 +62,7 @@ if uploaded_file is not None:
     tool = create_retriever_tool(
         retriever,
         "paper_retriever",
-        "Searches and returns excerpts from the Artificial Intelligence paper.",
+        "Search for information about a paper. For any questions about the paper, you must use this tool!",
     )
     tools = [tool]
 
