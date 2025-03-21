@@ -45,16 +45,14 @@ if uploaded_file is not None:
 
 
     ### 대형언어모델, 메모리, 파서 설정 ###
-    parser = StrOutputParser()
-    llm = ChatOllama(model="Llama3.2-Korean")
-    memory = MemorySaver()
+    llm = ChatOllama(model="llama3.2")
     embed_model = "snowflake-arctic-embed2"        
 
 
     ### 리트리버 생성 ###
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
     splits = text_splitter.split_documents(docs)
-    vectorstore = Chroma.from_documents(documents=splits, embedding=OllamaEmbeddings(model=embed_model))
+    vectorstore = FAISS.from_documents(documents=splits, embedding=OllamaEmbeddings(model=embed_model))
 
     retriever = vectorstore.as_retriever()
 
@@ -68,11 +66,19 @@ if uploaded_file is not None:
     )
     tools = [tool]
 
-
-    agent_executor = create_react_agent(llm, tools, checkpointer=memory)
-
-    config = {"configurable": {"thread_id": "abc123"}}
-
+    # Get the prompt to use - you can modify this!
+    prompt = hub.pull("hwchase17/openai-functions-agent")
+    
+    agent = create_tool_calling_agent(llm, tools, prompt)
+    agent_executor = AgentExecutor(agent=agent, tools=tools)
+    agent_with_chat_history = RunnableWithMessageHistory(
+        agent_executor,
+        get_session_history,
+        input_messages_key="input",
+        history_messages_key="chat_history",
+    )
+    config = {"configurable": {"session_id": "abc123"}}
+    
 
 
 def generate_response(input_text):
