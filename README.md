@@ -51,6 +51,7 @@ python paperbot.py
 ```
 - Web
 ```bash
+export LANGSMITH_API_KEY="..."
 streamlit run paperbot_web.py
 ```
 - Deployment
