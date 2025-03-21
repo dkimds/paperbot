@@ -25,6 +25,12 @@ def get_session_history(session_id: str) -> BaseChatMessageHistory:
 st.title("🦜🔗 Welcome to Paperbot")
 
 uploaded_file = st.sidebar.file_uploader("Choose a file")
+with st.sidebar:
+    clear_chat = st.button('Clear chat')
+if clear_chat:
+    st.session_state.messages = []
+    gc.collect()
+
 
 if uploaded_file is not None:
     ### 논문 삽입 ###
